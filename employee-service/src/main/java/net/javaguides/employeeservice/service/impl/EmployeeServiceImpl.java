@@ -3,6 +3,7 @@ package net.javaguides.employeeservice.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaguides.employeeservice.dto.EmployeeDto;
 import net.javaguides.employeeservice.entity.Employee;
+import net.javaguides.employeeservice.exception.ResourceNotFoundException;
 import net.javaguides.employeeservice.mapper.EmployeeMapper;
 import net.javaguides.employeeservice.repository.EmployeeRepository;
 import net.javaguides.employeeservice.service.EmployeeService;
@@ -45,15 +46,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         // ModelMapper
 //        EmployeeDto savedEmployeeDto = modelMapper.map(savedEmployee, EmployeeDto.class);
         // Map Struct
-        EmployeeDto savedEmployeeDto = EmployeeMapper.MAPPER.mapToEmployeeDto(savedEmployee);
-
-        return savedEmployeeDto;
+        return EmployeeMapper.MAPPER.mapToEmployeeDto(savedEmployee);
     }
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
 
-        Employee employee = employeeRepository.findById(employeeId).get();
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                () -> new ResourceNotFoundException("Employee", "id", employeeId)
+        );
 
         // Manual
 //        EmployeeDto employeeDto = new EmployeeDto(
@@ -66,9 +67,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
 
         // Map Struct
-        EmployeeDto employeeDto = EmployeeMapper.MAPPER.mapToEmployeeDto(employee);
-
-
-        return employeeDto;
+        return EmployeeMapper.MAPPER.mapToEmployeeDto(employee);
     }
 }

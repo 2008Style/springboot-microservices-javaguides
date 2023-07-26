@@ -3,11 +3,14 @@ package net.javaguides.departmentservice.service.impl;
 import lombok.AllArgsConstructor;
 import net.javaguides.departmentservice.dto.DepartmentDto;
 import net.javaguides.departmentservice.entity.Department;
+import net.javaguides.departmentservice.exception.ResourceNotFoundException;
 import net.javaguides.departmentservice.mapper.DepartmentMapper;
 import net.javaguides.departmentservice.repository.DepartmentRepository;
 import net.javaguides.departmentservice.service.DepartmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -53,7 +56,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
 
-        Department department = departmentRepository.findByDepartmentCode(departmentCode);
+        Optional<Department> optionalDepartment = departmentRepository.findByDepartmentCode(departmentCode);
+
+        if (optionalDepartment.isEmpty()) {
+            throw new ResourceNotFoundException("Department", "code", departmentCode);
+        }
 
         // Manual
 //        DepartmentDto departmentDto = new DepartmentDto(
@@ -65,8 +72,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         //Model Mapper
 //        DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
         // Map Struct
-        DepartmentDto departmentDto = DepartmentMapper.MAPPER.mapToDepartmentDto(department);
-
-        return departmentDto;
+        return DepartmentMapper.MAPPER.mapToDepartmentDto(optionalDepartment.get());
     }
 }
