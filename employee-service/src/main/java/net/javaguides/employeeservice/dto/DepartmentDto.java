@@ -1,4 +1,5 @@
-package net.javaguides.departmentservice.dto;
+package net.javaguides.employeeservice.dto;
+
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -9,14 +10,13 @@ import lombok.Setter;
 @Schema(
         description = "DepartmentDto Model Information"
 )
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DepartmentDto {
 
     private Long id;
-
     @Schema(
             description = "Department Name"
     )

@@ -5,6 +5,7 @@ import net.javaguides.departmentservice.dto.DepartmentDto;
 import net.javaguides.departmentservice.entity.Department;
 import net.javaguides.departmentservice.exception.ResourceNotFoundException;
 import net.javaguides.departmentservice.mapper.DepartmentMapper;
+import net.javaguides.departmentservice.mapper.ManDepartmentMapper;
 import net.javaguides.departmentservice.repository.DepartmentRepository;
 import net.javaguides.departmentservice.service.DepartmentService;
 import org.modelmapper.ModelMapper;
@@ -34,7 +35,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         //Model Mapper
 //        Department department = modelMapper.map(departmentDto, Department.class);
         // Map Struct
-        Department department = DepartmentMapper.MAPPER.mapToDepartment(departmentDto);
+//        Department department = DepartmentMapper.MAPPER.mapToDepartment(departmentDto);
+
+        // Manual Mapper
+        Department department = ManDepartmentMapper.mapToDepartment(departmentDto);
 
         Department savedDepartment = departmentRepository.save(department);
 
@@ -48,7 +52,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         // Model Mapper
 //        DepartmentDto savedDepartmentDto = modelMapper.map(savedDepartment, DepartmentDto.class);
         // Map Struct
-        DepartmentDto savedDepartmentDto = DepartmentMapper.MAPPER.mapToDepartmentDto(savedDepartment);
+//        DepartmentDto savedDepartmentDto = DepartmentMapper.MAPPER.mapToDepartmentDto(savedDepartment);
+
+        // Manual Mapper
+        DepartmentDto savedDepartmentDto = ManDepartmentMapper.mapToDepartmentDto(savedDepartment);
 
         return savedDepartmentDto;
     }
@@ -72,6 +79,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         //Model Mapper
 //        DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
         // Map Struct
-        return DepartmentMapper.MAPPER.mapToDepartmentDto(optionalDepartment.get());
+
+//        return DepartmentMapper.MAPPER.mapToDepartmentDto(optionalDepartment.get());
+
+        return ManDepartmentMapper.mapToDepartmentDto(optionalDepartment.get());
+
     }
 }
